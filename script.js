@@ -1,4 +1,3 @@
-
 // Mobile Menu Toggle
 const mobileBtn = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
@@ -63,18 +62,22 @@ if (contactForm) {
         formStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending message...';
 
         try {
-            const res = await fetch("http://localhost:5000/contact", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    subject,
-                    message
-                })
-            });
+            const res = await fetch(
+                "https://formsubmit.co/ajax/dehemisathsarani184@gmail.com",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        subject,
+                        message
+                    })
+                }
+            );
 
             if (!res.ok) {
                 throw new Error("Server error");
@@ -82,13 +85,18 @@ if (contactForm) {
 
             const result = await res.json().catch(() => ({}));
 
-            formStatus.innerHTML = `<span style="color:#4ade80;">✓ ${result.message || "Message sent successfully!"}</span>`;
+            formStatus.innerHTML =
+                '<span style="color:#4ade80;">✓ Message sent successfully!</span>';
+
             contactForm.reset();
 
             setTimeout(() => formStatus.innerHTML = '', 5000);
 
         } catch (error) {
-            formStatus.innerHTML = '<span style="color:#f87171;">❌ Failed to send message. Check backend.</span>';
+            console.error(error);
+
+            formStatus.innerHTML =
+                '<span style="color:#f87171;">❌ Failed to send message. Please try again.</span>';
         }
     });
 }
@@ -133,7 +141,9 @@ let skillsAnimated = false;
 
 const isElementPartiallyVisible = (el) => {
     const rect = el.getBoundingClientRect();
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const windowHeight =
+        window.innerHeight || document.documentElement.clientHeight;
+
     return rect.top < windowHeight - 50 && rect.bottom > 0;
 };
 
@@ -146,7 +156,12 @@ const animateSkills = () => {
         if (isElementPartiallyVisible(bar)) {
             const targetWidth = getTargetWidth(bar);
             const currentWidth = bar.style.width;
-            if (!currentWidth || currentWidth === '0px' || currentWidth === '0%') {
+
+            if (
+                !currentWidth ||
+                currentWidth === '0px' ||
+                currentWidth === '0%'
+            ) {
                 setTimeout(() => {
                     bar.style.transition = 'width 1.2s ease';
                     bar.style.width = targetWidth;
@@ -164,11 +179,17 @@ const animateSkills = () => {
 
 const resetSkillsAnimation = () => {
     const skillsSection = document.querySelector('.skills-section');
+
     if (skillsSection) {
-        const sectionPosition = skillsSection.getBoundingClientRect().top;
+        const sectionPosition =
+            skillsSection.getBoundingClientRect().top;
+
         const windowHeight = window.innerHeight;
 
-        if (sectionPosition > windowHeight + 300 || sectionPosition < -300) {
+        if (
+            sectionPosition > windowHeight + 300 ||
+            sectionPosition < -300
+        ) {
             skillsAnimated = false;
         }
     }
@@ -179,6 +200,7 @@ setTimeout(() => {
 }, 500);
 
 let scrollTimeout;
+
 window.addEventListener('scroll', () => {
     if (scrollTimeout) clearTimeout(scrollTimeout);
 
@@ -197,6 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroText) {
         heroText.style.opacity = '0';
         heroText.style.transform = 'translateX(-30px)';
+
         setTimeout(() => {
             heroText.style.opacity = '1';
             heroText.style.transform = 'translateX(0)';
@@ -206,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroPhoto) {
         heroPhoto.style.opacity = '0';
         heroPhoto.style.transform = 'translateX(30px)';
+
         setTimeout(() => {
             heroPhoto.style.opacity = '1';
             heroPhoto.style.transform = 'translateX(0)';
