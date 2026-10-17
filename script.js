@@ -132,6 +132,7 @@ const getTargetWidth = (element) => {
     if (element.classList.contains('powerbi')) return '88%';
     if (element.classList.contains('excel')) return '90%';
     if (element.classList.contains('web')) return '80%';
+    if (element.classList.contains('react')) return '65%';
     if (element.classList.contains('node')) return '65%';
     if (element.classList.contains('ml')) return '70%';
     return '0%';
