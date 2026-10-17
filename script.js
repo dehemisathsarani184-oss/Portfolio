@@ -123,7 +123,8 @@ window.addEventListener('scroll', () => {
     });
 });
 
-// Skill bars animation
+
+ // Skill bars animation 
 const skillProgressBars = document.querySelectorAll('.skill-progress');
 
 const getTargetWidth = (element) => {
@@ -138,78 +139,18 @@ const getTargetWidth = (element) => {
     return '0%';
 };
 
-let skillsAnimated = false;
-
-const isElementPartiallyVisible = (el) => {
-    const rect = el.getBoundingClientRect();
-    const windowHeight =
-        window.innerHeight || document.documentElement.clientHeight;
-
-    return rect.top < windowHeight - 50 && rect.bottom > 0;
-};
-
-const animateSkills = () => {
-    if (skillsAnimated) return;
-
-    let allVisible = true;
-
-    skillProgressBars.forEach(bar => {
-        if (isElementPartiallyVisible(bar)) {
-            const targetWidth = getTargetWidth(bar);
-            const currentWidth = bar.style.width;
-
-            if (
-                !currentWidth ||
-                currentWidth === '0px' ||
-                currentWidth === '0%'
-            ) {
-                setTimeout(() => {
-                    bar.style.transition = 'width 1.2s ease';
-                    bar.style.width = targetWidth;
-                }, 100);
-            }
-        } else {
-            allVisible = false;
-        }
+function animateSkills() {
+    skillProgressBars.forEach((bar) => {
+        bar.style.width = getTargetWidth(bar);
     });
+}
 
-    if (allVisible && skillProgressBars.length > 0) {
-        skillsAnimated = true;
-    }
-};
-
-const resetSkillsAnimation = () => {
-    const skillsSection = document.querySelector('.skills-section');
-
-    if (skillsSection) {
-        const sectionPosition =
-            skillsSection.getBoundingClientRect().top;
-
-        const windowHeight = window.innerHeight;
-
-        if (
-            sectionPosition > windowHeight + 300 ||
-            sectionPosition < -300
-        ) {
-            skillsAnimated = false;
-        }
-    }
-};
-
-setTimeout(() => {
+// Run once when the page loads
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', animateSkills, { once: true });
+} else {
     animateSkills();
-}, 500);
-
-let scrollTimeout;
-
-window.addEventListener('scroll', () => {
-    if (scrollTimeout) clearTimeout(scrollTimeout);
-
-    scrollTimeout = setTimeout(() => {
-        animateSkills();
-        resetSkillsAnimation();
-    }, 100);
-});
+}
 
 // Page load animations
 document.addEventListener('DOMContentLoaded', () => {
